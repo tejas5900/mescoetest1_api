@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const knex = require('knex')
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
@@ -108,7 +108,7 @@ app.post('/register/student', (req, res) => {
 				})
 			})
 		.then(trx.commit)
-		// .catch(trx.rollback)
+		.catch(trx.rollback)
 	})
 	.catch(err => res.status(400).json('Unable to register'));
 })
