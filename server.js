@@ -84,7 +84,15 @@ app.post('/register/student', (req, res) => {
 	const {name, year, branch, div, prn, email, password} = req.body;
 	const salt = bcrypt.genSaltSync(10);
 	const hash = bcrypt.hashSync(password, salt);
-	db('student.users')
+	db.transaction(trx => {
+		trx.insert({
+			hash: hash,
+			email: email
+		})
+		.into('student.login')
+		.returning('email')
+		.then(loginEmail => {
+			return trx('student.users')
 				.returning('*')
 				.insert({
 					name: name,
@@ -92,40 +100,17 @@ app.post('/register/student', (req, res) => {
 					branch: branch,
 					div: div,
 					prn: prn,
-					email: email,
+					email: loginEmail[0],
 					joined: new Date()
 				})
 				.then(user => {
 					res.json(user[0]);
 				})
-				.catch(err => res.status(400).json(err));
-	// db.transaction(trx => {
-	// 	trx.insert({
-	// 		hash: hash,
-	// 		email: email
-	// 	})
-	// 	.into('student.login')
-	// 	.returning('email')
-	// 	.then(loginEmail => {
-	// 		return trx('student.users')
-	// 			.returning('*')
-	// 			.insert({
-	// 				name: name,
-	// 				year: year,
-	// 				branch: branch,
-	// 				div: div,
-	// 				prn: prn,
-	// 				email: loginEmail[0],
-	// 				joined: new Date()
-	// 			})
-	// 			.then(user => {
-	// 				res.json(user[0]);
-	// 			})
-	// 		})
-	// 	.then(trx.commit)
-	// 	.catch(trx.rollback)
-	// })
-	// .catch(err => res.status(400).json('Unable to register'));
+			})
+		.then(trx.commit)
+		.catch(trx.rollback)
+	})
+	.catch(err => res.status(400).json('Unable to register'));
 })
 
 app.post('/register/faculty', (req, res) => {
