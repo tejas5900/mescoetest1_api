@@ -17,72 +17,13 @@ db.withSchema('faculty').select('*').from('users').then(data => {
 	console.log(data);
 });
 
-const students = [
-	{
-		id: '1',
-		name: 'Tejas Machkar',
-		year: 'TE',
-		branch: 'Computer',
-		div: '-1',
-		PRN: 'F18112025',
-		email: 'tejas@gmail.com',
-		password: 'apple',
-		joined: new Date()
-	},
-	{
-		id: '2',
-		name: 'Tanmay Jagtap',
-		year: 'TE',
-		branch: 'Computer',
-		div: '-1',
-		PRN: 'F18112045',
-		email: 'tanmay@gmail.com',
-		password: 'mango',
-		joined: new Date()
-	},
-	{
-		id: '3',
-		name: 'Dwight Shrute',
-		year: 'TE',
-		branch: 'Computer',
-		div: '-1',
-		PRN: 'F18112035',
-		email: 'dwight@gmail.com',
-		password: 'beet',
-		joined: new Date()
-	}
-] 
-
-const faculty = [
-	{
-		id: '1',
-		name: 'Master Obiwan',
-		employeeID: '23',
-		year: 'TE',
-		branch: 'Computer',
-		PRN: 'P20020',
-		email: 'obiwan@gmail.com',
-		password: 'anakin_sucks'
-	},
-	{
-		id: '2',
-		name: 'Master Yoda',
-		employeeID: '34',
-		year: 'TE',
-		branch: 'Computer',
-		PRN: 'P20025',
-		email: 'yoda@gmail.com',
-		password: 'password_this_is'
-	}	
-]
-
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-	res.json(faculty);
+	res.json("This is working.");
 });
 
 app.post('/signin/student', (req, res) => {
