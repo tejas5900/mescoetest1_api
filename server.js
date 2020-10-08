@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
+    host : 'postgresql-silhouetted-12198',
     user : 'postgres',
     password : 'tejas@db',
     database : 'mescoe'
