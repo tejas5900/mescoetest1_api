@@ -3,13 +3,13 @@ const cors = require('cors');
 const knex = require('knex')
 const bcrypt = require('bcryptjs');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 const db = knex({
   client: 'pg',
   connection: {
-    host : 'postgresql-silhouetted-12198',
-    user : 'postgres',
-    password : 'tejas@db',
-    database : 'mescoe'
+    host : process.env.DATABASE_URL,
+    ssl: true,
   }
 });
 
